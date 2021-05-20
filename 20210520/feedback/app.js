@@ -2,7 +2,7 @@
  * @Description  : application 应用程序
  * @Author       : pacino
  * @Date         : 2021-05-20 16:11:58
- * @LastEditTime : 2021-05-20 17:43:13
+ * @LastEditTime : 2021-05-20 17:58:20
  * @LastEditors  : pacino
  */
 
@@ -33,7 +33,13 @@ http
       });
     } else {
       res.setHeader("Content-Type", "text/plain;charset=utf-8;");
-      res.end("没有命中");
+      fs.readFile("./views/404.html", function (err, data) {
+        if (err) {
+          return res.end("404 not found");
+        }
+        res.setHeader("Content-Type", "text/html;charset=utf-8;");
+        res.end(data);
+      });
     }
   })
   .listen(3000, function () {
