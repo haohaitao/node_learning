@@ -19,25 +19,29 @@
         我的服务器开放了 /public/ 目录
         所以这里的请求路径都写成: /public/xxx
      -->
-    <link rel="stylesheet" href="/public/lib/bootstrap.css"
+    <link rel="stylesheet" href="/public/lib/bootstrap.css" />
+    <style>
+        .btn{
+            margin: 30px 0;
+        }
+        .pull-right{
+            float: right;
+        }
+    </style>
 </head>
 <body>
     <div class="header container">
         <div class="page-header">
-            <h1>Example page header <small>Subtxt for header</small></h1>
-            <a class="btn btn-success" href="post.html">发表留言</a>
+            <h1>首页 <small style="font-size:1rem;">快来留言吧</small></h1>
+            <a class="btn btn-success" href="/post">发表留言</a>
         </div>
     </div>
     <div class="components container">
         <ul class="list-group">
-            <li class="list-group-item">11111</li>
-            <li class="list-group-item">2222</li>
-            <li class="list-group-item">3333</li>
-            <li class="list-group-item">4444</li>
-            <li class="list-group-item">5555</li>
-            <li class="list-group-item">6666</li>
-            <li class="list-group-item">7777</li>
-            <li class="list-group-item">888</li>
+            {{ each components }}
+            <li class="list-group-item">{{ $value.name }}说： {{ $value.message }}
+            <span class="pull-right">{{ $value.dateTime  }}</span>
+            {{ /each }}
         </ul>
     </div>
     <script src="/public/js/main.js"></script>

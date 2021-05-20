@@ -5,4 +5,4 @@
  * @LastEditTime : 2021-05-20 17:41:19
  * @LastEditors  : pacino
  */
-window.alert("hello world");
+console.log('加载main.js')
