@@ -70,8 +70,12 @@ router.get("/students/new", function (req, res) {
 
 router.post("/students/new", function (req, res) {
   console.log("---req.body---", req.body);
-  var students = req.body;
-  Studnet.save(function (students, callback) {});
+  Studnet.save(req.body, function (err) {
+    if (err) {
+      return res.status(500).send('Server error.')
+    }
+    res.redirect('/students')
+  });
   //   res.render("new.html");
 });
 // module.exports = function (app, fs) {

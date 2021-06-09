@@ -46,7 +46,7 @@ exports.save = function (student, callback) {
     var fileData = JSON.stringify({
       students: students,
     });
-    fs.wrateFile(dbPath, fileData, function (err) {
+    fs.writeFile(dbPath, fileData, function (err) {
       if (err) {
         return callback(err);
       }
@@ -58,7 +58,7 @@ exports.save = function (student, callback) {
 /**
  * 更新学生
  */
-exports.update = function () {};
+exports.update = function () { };
 
 /**
  * 删除学生
