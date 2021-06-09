@@ -2,7 +2,7 @@
  * @Description  : express入口
  * @Author       : pacino
  * @Date         : 2021-06-08 16:09:06
- * @LastEditTime : 2021-06-08 17:56:20
+ * @LastEditTime : 2021-06-09 11:17:48
  * @LastEditors  : pacino
  */
 /**
@@ -12,6 +12,8 @@
 
 var express = require("express");
 
+// 已弃用，可直接使用 express 调 body-parser 的api
+// var bodyParser = require("body-parser");
 // 2、创建你服务器应用程序
 // 也就是原来的 heep.createServer
 
@@ -36,25 +38,82 @@ app.use("/public/", express.static("./public/"));
 
 app.engine("html", require("express-art-template"));
 
+// 配置解析
+// bodyParser 已弃用，直接使用 express 调 body-parser 的api
+// parse application/json
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+var comments = [
+  {
+    name: "张三",
+    message: "今天下雨",
+    dateTime: "2021-05-20",
+  },
+  {
+    name: "张三",
+    message: "今天下雨",
+    dateTime: "2021-05-20",
+  },
+  {
+    name: "张三",
+    message: "今天下雨",
+    dateTime: "2021-05-20",
+  },
+  {
+    name: "张三",
+    message: "今天下雨",
+    dateTime: "2021-05-20",
+  },
+  {
+    name: "张三",
+    message: "今天下雨",
+    dateTime: "2021-05-20",
+  },
+];
+
 // 当服务器收到 get 请求 / 的时候，执行回调处理函数
 app.get("/", function (req, res) {
-  res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="ur=tf-8" />
-            <title>document</title>
-        </head>
-        <body>
-            <h1> hello </h1>
-        </body>
-    </html>
-  `);
+  res.render("index.html", {
+    comments: comments,
+  });
 });
 
-app.get("/404", function (req, res) {
-  res.render("404.html");
+app.get("/post", function (req, res) {
+  res.render("post.html");
 });
+
+// 当以 POST 请求 /post 的时候，执行指定的处理函数
+// 因为路由可以一样，请求方式不一样
+app.post("/post", function (req, res) {
+  // 1.处理表单 POST 请求提数据
+  // 2. 处理
+  // 3. 发送响应
+  // req.query 只能拿 get 请求参数
+  req.query.dateTime = new Date().valueOf();
+  console.log("---req.body---", req.body);
+  comments.push(req.body);
+  res.render("index.html", {
+    comments: comments,
+  });
+});
+
+// app.post("/pinglun", function (req, res) {
+//   req.query.dateTime = new Date().valueOf();
+//   comments.push(req.query);
+//   res.render("index.html", {
+//     comments: comments,
+//   });
+// });
+
+app.get("/404", function (req, res) {
+  res.render("404.html", {
+    content: "您访问的页面失联了！",
+  });
+});
+
+// 如果希望修改默认的 views 师徒渲染存储目录，可以
+// app.set("views", "pages");
 
 app.get("/about", function (req, res) {
   // 在Express 中可以直接通，req.query 来拿到查询字符串的参数

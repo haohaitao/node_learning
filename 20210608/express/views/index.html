@@ -1,0 +1,49 @@
+<!--
+ * @Description  :  index
+ * @Author       : pacino
+ * @Date         : 2021-06-09 09:57:57
+ * @LastEditTime : 2021-06-09 10:31:12
+ * @LastEditors  : pacino
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        浏览器收到响应，自上而下进行解析
+        注意：在服务器中，文件中的路径就不要去写相对路径了。
+        因为这个世界所有的资源都是通过 url 标识来获取的
+        我的服务器开放了 /public/ 目录
+        所以这里的请求路径都写成: /public/xxx
+     -->
+    <link rel="stylesheet" href="/public/lib/bootstrap.css" />
+    <style>
+        .btn{
+            margin: 30px 0;
+        }
+        .pull-right{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="header container">
+        <div class="page-header">
+            <h1>首页 <small style="font-size:1rem;">快来留言吧</small></h1>
+            <a class="btn btn-success" href="/post">发表留言</a>
+        </div>
+    </div>
+    <div class="components container">
+        <ul class="list-group">
+            {{ each comments }}
+            <li class="list-group-item">{{ $value.name }}说： {{ $value.message }}
+            <span class="pull-right">{{ $value.dateTime  }}</span>
+            {{ /each }}
+        </ul>
+    </div>
+    <script src="/public/js/main.js"></script>
+</body>
+</html>
