@@ -56,10 +56,10 @@ exports.save = function (student, callback) {
 };
 
 /**
- * 更新学生
+ * 更新学生列表
  */
 exports.update = function () { };
 
 /**
- * 删除学生
+ * 删除某个学生
  */
