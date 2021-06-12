@@ -32,7 +32,6 @@ router.get("/students", function (req, res) {
   // 文件中读取到的数据一定是字符串
 
   Studnet.find(function (err, students) {
-    // console.log("---students---", students);
     if (err) {
       return res.status(500).send("Server error");
     }
@@ -41,6 +40,16 @@ router.get("/students", function (req, res) {
       students: students,
     });
   });
+  // Promise改写
+  // Studnet.find().then(students => {
+  //   console.log('显示》。。', students)
+  //   res.render("index.html", {
+  //     fruits: ["苹果", "香蕉", "榴莲", "芒果"],
+  //     students: students,
+  //   });
+  // }).catch(err => {
+  //   return res.status(500).send("Server error");
+  // })
   //   fs.readFile("./db.json", "utf8", function (err, data) {
   //     var students = JSON.parse(data).studnets;
   //     if (err) {
@@ -54,7 +63,14 @@ router.get("/students", function (req, res) {
 });
 
 router.get("/students/edit", function (req, res) {
-  res.send("edit edit edit");
+  // 1.在客户端的列表页中处理链接问题，需要有id参数
+  // 2.获取要编辑的学生 id
+  // 渲染页面
+  // res.send("edit edit edit");
+  console.log(req.query, typeof req.query.item, req.query.item.name)
+  res.render("edit.html", {
+    student: JSON.parse(req.query.item)
+  });
 });
 
 router.get("/students/new", function (req, res) {
