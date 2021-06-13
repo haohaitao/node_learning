@@ -76,7 +76,9 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">编辑学生</h1>
-          <form method="post" action="/students/new">
+          <form method="post" action="/students/edit">
+            <!-- 不让用看到，但是ixuyao提交到服务端 -->
+            <input type="hidden" id="{{ student.id }}" name="id" value="{{ student.id }}" />
             <div class="form-group">
               <label for="exampleInputEmail1">姓名</label>
               <input type="text" class="form-control" name="name" value="{{ student.name }}" placeholder="姓名">

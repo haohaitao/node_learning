@@ -43,6 +43,24 @@ exports.find = function (callback) {
 // };
 
 /**
+ * 根据 id 获取学生信息
+ * 学生id
+ * callback 回调函数
+ */
+exports.findById = function (id, callback) {
+  fs.readFile(dbPath, 'utf8', function (err, data) {
+    if (err) {
+      return callback(err)
+    }
+    var students = JSON.parse(data).students
+    var ret = students.find(function (item) {
+      return item.id === parseInt(id)
+    })
+    callback(null, ret)
+  })
+}
+
+/**
  * 添加保存学生
  */
 exports.save = function (student, callback) {
@@ -70,14 +88,14 @@ exports.save = function (student, callback) {
 /**
  * 更新学生列表
  */
-exports.updateById = function () {
+exports.updateById = function (student, callback) {
   fs.readFile(dbPath, "utf8", function (err, data) {
     if (err) {
       return callback(err);
     }
     var students = JSON.parse(data).students
     var stu = students.find(function (item) {
-      return item.id === student.id
+      return item.id === parseInt(student.id)
     })
 
     // 遍历拷贝对象

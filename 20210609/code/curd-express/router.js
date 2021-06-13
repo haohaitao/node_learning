@@ -11,7 +11,7 @@
  *      处理路由
  *      根据不同的请求方法+请求路径设置具体的请求处理函数
  */
-var Studnet = require("./studnet");
+var Student = require("./Student");
 
 // Express 提供了一种更好的方式
 // 专门用来包装路由
@@ -31,7 +31,7 @@ router.get("/students", function (req, res) {
   // readFile 的第二个参数是可选的，传入 utf8 就是告诉它把读取到的文件直接按照 utf8 编码
   // 文件中读取到的数据一定是字符串
 
-  Studnet.find(function (err, students) {
+  Student.find(function (err, students) {
     if (err) {
       return res.status(500).send("Server error");
     }
@@ -41,7 +41,7 @@ router.get("/students", function (req, res) {
     });
   });
   // Promise改写
-  // Studnet.find().then(students => {
+  // Student.find().then(students => {
   //   console.log('显示》。。', students)
   //   res.render("index.html", {
   //     fruits: ["苹果", "香蕉", "榴莲", "芒果"],
@@ -67,10 +67,33 @@ router.get("/students/edit", function (req, res) {
   // 2.获取要编辑的学生 id
   // 渲染页面
   // res.send("edit edit edit");
-  console.log(req.query, typeof req.query.item, req.query.item.name)
-  res.render("edit.html", {
-    student: JSON.parse(req.query.item)
-  });
+  Student.updateById(req.body, function (err) {
+    if (err) {
+      return res.status(500).send('Server error')
+    }
+    Student.findById(req.query.id, function (err, student) {
+      if (err) {
+        return res.status(500).send('Server error')
+      }
+      res.render("edit.html", {
+        student: student
+      });
+    })
+  })
+});
+
+// 处理编辑学生
+router.post("/students/edit", function (req, res) {
+  // 1.在客户端的列表页中处理链接问题，需要有id参数
+  // 2.获取要编辑的学生 id
+  // 渲染页面
+  // res.send("edit edit edit");
+  Student.updateById(req.body, function (err) {
+    if (err) {
+      return res.status(500).send('Server error')
+    }
+    res.redirect('/students')
+  })
 });
 
 router.get("/students/new", function (req, res) {
@@ -85,8 +108,7 @@ router.get("/students/new", function (req, res) {
 });
 
 router.post("/students/new", function (req, res) {
-  console.log("---req.body---", req.body);
-  Studnet.save(req.body, function (err) {
+  Student.save(req.body, function (err) {
     if (err) {
       return res.status(500).send('Server error.')
     }
