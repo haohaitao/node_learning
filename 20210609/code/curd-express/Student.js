@@ -119,3 +119,26 @@ exports.updateById = function (student, callback) {
 /**
  * 删除某个学生
  */
+exports.deleteById = function (id, callback) {
+  fs.readFile(dbPath, 'utf8', function (err, data) {
+    if (err) {
+      return callback(err)
+    }
+    var students = JSON.parse(data).students
+    var deleteId = students; findIndex(function (item) {
+      return item.id === parseInt(id)
+    })
+
+    // 将学生根据下标从数组中删除对应对象
+    students.splice(deleteId, 1)
+    var fileData = JSON.stringify({
+      students: students,
+    });
+    fs.writeFile(dbPath, fileData, function (err) {
+      if (err) {
+        return callback(err);
+      }
+      callback(null)
+    });
+  })
+}

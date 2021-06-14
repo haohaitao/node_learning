@@ -96,6 +96,19 @@ router.post("/students/edit", function (req, res) {
   })
 });
 
+/**
+ * 处理删除学生
+ */
+router.get('/students/delete', function (req, res) {
+  // 1、删除的 id
+  // 2、数组变异方法删除
+  Student.deleteById(req.query.id, function (err) {
+    if (err) {
+      return res.status(500).send('Server error')
+    }
+    res.redirect('/students')
+  })
+})
 router.get("/students/new", function (req, res) {
   /**
    * 1.获取表单数据
