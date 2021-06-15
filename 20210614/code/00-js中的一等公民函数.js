@@ -22,6 +22,7 @@ function add(x, y, callback) {
   }, 1000)
 }
 
+// 传参
 add(10, 20, (ret) => {
   console.log(ret)
 })
