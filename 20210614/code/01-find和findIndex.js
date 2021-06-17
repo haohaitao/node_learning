@@ -3,8 +3,7 @@ let users = [
   { id: 2, name: '张三' },
   { id: 3, name: '张三' },
   { id: 4, name: '张三' },
-  { id: 5, name: '张三' },
-  { id: 6, name: '张三' }
+  { id: 5, name: '张三' }
 ]
 
 Array.prototype.myFind = function (conditionFunc) {
