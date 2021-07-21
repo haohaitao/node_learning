@@ -1,61 +1,54 @@
 /*
- * @Description  :  入口文件
+ * @Description  :
  * @Author       : pacino
  * @Date         : 2021-07-20 14:20:09
- * @LastEditTime : 2021-07-20 17:49:27
+ * @LastEditTime : 2021-07-21 14:40:32
  * @LastEditors  : pacino
  */
 const express = require("express");
 
-const userRouter = require("./router/user_router");
-
 const app = express();
 
-app.use("/user", userRouter);
+app.get("/demo", (req, res) => {
+  throw new Error("测试功能异常");
+  // const { message } = req.query;
+  //   res.json({
+  //     message,
+  //   });
+});
 
-function log_midleware(req, res, next) {
-  console.log("请求进来了...");
-  next();
-}
-
-app.use(log_midleware);
-
-// 加载一个 static 的中间件
-app.use(
-  express.static("static", {
-    extensions: ["html", "html"],
-  })
-);
-
-// 中间件完整的结构
-// 1.是一个函数
-// 2.err,req,res,next-->function
-
-function demo_middleware(err, req, res, next) {
-  // 1.异常
-  // 2,处理下业务功能，然后转交控制权--next
-  // 3.响应请求--结束响应-->当做路由的处理函数
-}
-
-function valid_name_middleware(req, res, next) {
-  let { name } = req.query;
-  if (!name || !name.length) {
-    res.json({
-      message: "缺少name参数",
-    });
-  } else {
-    next();
+function demo_middleware(req, res, next) {
+  try {
+    // mysql操作
+  } catch (error) {
+    next(error);
   }
 }
 
-// app.all("*", valid_name_middleware);
+// 异常处理中间件
+function error_handler_middleware(err, req, res, next) {
+  const { message } = err;
+  console.log("---msg---", message);
+  if (err) {
+    res.status(500).json({
+      msg: message || "服务器异常",
+    });
+  } else {
+    // TODO
+  }
+}
 
-// route
-app.get("/test", (req, res) => {
+// 404中间件
+function not_found_handler(req, res, next) {
   res.json({
-    message: "test",
+    msessage: "api不存在",
   });
-});
-app.listen(5000, () => {
+}
+
+app.use(error_handler_middleware);
+
+app.use(not_found_handler);
+
+app.listen(3003, () => {
   console.log("服务启动成功");
 });
