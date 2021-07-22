@@ -2,7 +2,7 @@
  * @Description  :
  * @Author       : pacino
  * @Date         : 2021-07-21 15:51:52
- * @LastEditTime : 2021-07-21 17:58:14
+ * @LastEditTime : 2021-07-22 10:08:20
  * @LastEditors  : pacino
  */
 const express = require("express");
@@ -48,7 +48,7 @@ app.get("/list", async (req, res) => {
 // 查询指定id详情
 app.get("/detail/:id", async (req, res) => {
   const { id } = req.params;
-  const user = models.User.findOne({
+  const user = await models.User.findOne({
     where: {
       id,
     },

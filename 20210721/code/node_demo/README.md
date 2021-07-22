@@ -2,13 +2,13 @@
  * @Description  : 说明
  * @Author       : pacino
  * @Date         : 2021-07-21 15:53:28
- * @LastEditTime : 2021-07-21 15:55:08
+ * @LastEditTime : 2021-07-22 11:23:28
  * @LastEditors  : pacino
 -->
 
 ## 创建本项目的命令过程
 ```
-    $ npm install --save sequelize
+    $ npm i --save sequelize
     $ npm i sequelize-cli -d
     $ npm i sequelize-cli -s
     $ npx sequelize-cli init
