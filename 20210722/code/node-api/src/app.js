@@ -2,7 +2,7 @@
  * @Description  :
  * @Author       : pacino
  * @Date         : 2021-07-22 14:00:47
- * @LastEditTime : 2021-07-22 17:53:11
+ * @LastEditTime : 2021-07-23 16:31:12
  * @LastEditors  : pacino
  */
 const express = require("express");
@@ -10,7 +10,7 @@ const app = express();
 // const bodyParser = require("body-parser");
 
 const models = require("../db/models");
-
+const moment = require("moment");
 // 处理json
 app.use(express.json());
 // 对url参数做解码
@@ -50,7 +50,7 @@ app.post("/create", async (req, res, next) => {
 // 修改一个todo
 app.post("/update", async (req, res, next) => {
   try {
-    const { name, deadline, content, id } = req.body;
+    const { name, deadline, content, id, status } = req.body;
     let todo = await models.Todo.findOne({
       where: {
         id,
@@ -62,6 +62,7 @@ app.post("/update", async (req, res, next) => {
         name,
         deadline,
         content,
+        status,
       });
     }
     res.json({
@@ -75,7 +76,7 @@ app.post("/update", async (req, res, next) => {
 // 修改一个todo状态，删除
 app.post("/update_status", async (req, res, next) => {
   try {
-    const { id, name, status } = req.body;
+    const { id, status } = req.body;
     let todo = await models.Todo.findOne({
       where: {
         id,
@@ -98,8 +99,7 @@ app.post("/update_status", async (req, res, next) => {
 // 查询任务列表
 app.get("/list/:status/:page", async (req, res, next) => {
   let { status, page } = req.params;
-  console.log("---status---", status);
-  let limit = 10;
+  let limit = 5;
   let offset = (page - 1) * limit;
   let where = {};
   if (status != -1) {
